@@ -1,0 +1,462 @@
+[
+  {
+    "id": "fur-elise",
+    "title": "Für Elise",
+    "composer": "Ludwig van Beethoven",
+    "description": "The famous A minor theme, the stormy middle, and the way home. Loop a section, then put the hands together.",
+    "difficulty": "intermediate",
+    "attribution": "Public-domain engraving from the Mutopia Project. Typeset by Stelios Samelis after the 1888 Breitkopf & Härtel edition.",
+    "license": "pd",
+    "practiceScale": 0.85,
+    "bpm": 72,
+    "fifths": 0,
+    "minor": true,
+    "time": [
+      3,
+      8
+    ],
+    "bars": 105,
+    "notes": 905,
+    "range": [
+      33,
+      100
+    ]
+  },
+  {
+    "id": "minuet-g",
+    "title": "Minuet in G",
+    "composer": "Christian Petzold",
+    "description": "The minuet from the Anna Magdalena notebook, long thought to be Bach’s. Courtly, clear, and the right first “real” piece.",
+    "difficulty": "beginner",
+    "attribution": "Public-domain engraving from the Mutopia Project. Typeset by Allen Garvin after the Bach-Gesellschaft. BWV Anh. 114.",
+    "license": "pd",
+    "practiceScale": 0.8,
+    "bpm": 140,
+    "fifths": 1,
+    "minor": false,
+    "time": [
+      3,
+      4
+    ],
+    "bars": 32,
+    "notes": 204,
+    "range": [
+      43,
+      83
+    ]
+  },
+  {
+    "id": "minuet-gm",
+    "title": "Minuet in G minor",
+    "composer": "Christian Petzold",
+    "description": "The darker twin of the G major minuet. Two flats, a singing right hand, and a bass that steps instead of bouncing.",
+    "difficulty": "beginner",
+    "attribution": "Public-domain engraving from the Mutopia Project. Typeset by Allen Garvin. BWV Anh. 115.",
+    "license": "pd",
+    "practiceScale": 0.8,
+    "bpm": 140,
+    "fifths": -2,
+    "minor": true,
+    "time": [
+      3,
+      4
+    ],
+    "bars": 32,
+    "notes": 199,
+    "range": [
+      43,
+      82
+    ]
+  },
+  {
+    "id": "musette",
+    "title": "Musette in D",
+    "composer": "Anonymous",
+    "description": "A drone in the left hand, a bright tune in the right. From the Anna Magdalena notebook, BWV Anh. 126.",
+    "difficulty": "beginner",
+    "attribution": "Public-domain engraving from the Mutopia Project. Typeset by Allen Garvin.",
+    "license": "pd",
+    "practiceScale": 0.9,
+    "bpm": 120,
+    "fifths": 2,
+    "minor": false,
+    "time": [
+      2,
+      4
+    ],
+    "bars": 20,
+    "notes": 171,
+    "range": [
+      38,
+      81
+    ]
+  },
+  {
+    "id": "prelude-c",
+    "title": "Prelude in C major",
+    "composer": "Johann Sebastian Bach",
+    "description": "The first prelude of the Well-Tempered Clavier. One pattern, thirty-five harmonies. Evenness is the whole game.",
+    "difficulty": "intermediate",
+    "attribution": "Public-domain engraving from the Mutopia Project. Typeset by Tobias Erbsland. BWV 846.",
+    "license": "pd",
+    "practiceScale": 0.9,
+    "bpm": 60,
+    "fifths": 0,
+    "minor": false,
+    "time": [
+      4,
+      4
+    ],
+    "bars": 35,
+    "notes": 549,
+    "range": [
+      36,
+      81
+    ]
+  },
+  {
+    "id": "ode-hymn",
+    "title": "Ode to Joy (hymn)",
+    "composer": "Ludwig van Beethoven",
+    "description": "A four-part setting. Read the chords, not just the tune — the upper staff is the right hand, the lower staff the left.",
+    "difficulty": "intermediate",
+    "attribution": "Public-domain engraving from the Mutopia Project. Typeset by Peter Chubb.",
+    "license": "pd",
+    "practiceScale": 0.9,
+    "bpm": 100,
+    "fifths": 1,
+    "minor": false,
+    "time": [
+      4,
+      4
+    ],
+    "bars": 16,
+    "notes": 238,
+    "range": [
+      43,
+      74
+    ]
+  },
+  {
+    "id": "gymnopedie",
+    "title": "Gymnopédie No. 1",
+    "composer": "Erik Satie",
+    "description": "Slow, spare, and unforgiving of a rushed bass. Let the left hand land and the right hand answer late.",
+    "difficulty": "intermediate",
+    "attribution": "Public-domain engraving from the Mutopia Project. Typeset by Evin Robertson.",
+    "license": "pd",
+    "practiceScale": 1,
+    "bpm": 60,
+    "fifths": 2,
+    "minor": false,
+    "time": [
+      3,
+      4
+    ],
+    "bars": 47,
+    "notes": 282,
+    "range": [
+      33,
+      81
+    ]
+  },
+  {
+    "id": "chopin-28-7",
+    "title": "Prelude in A major, Op. 28 No. 7",
+    "composer": "Frédéric Chopin",
+    "description": "Sixteen bars of mazurka. Small enough to memorize, polished enough to perform.",
+    "difficulty": "intermediate",
+    "attribution": "Public-domain engraving from the Mutopia Project. Mutopia engraving of Chopin’s Op. 28 No. 7.",
+    "license": "pd",
+    "practiceScale": 0.85,
+    "bpm": 120,
+    "fifths": 3,
+    "minor": false,
+    "time": [
+      3,
+      4
+    ],
+    "bars": 16,
+    "notes": 168,
+    "range": [
+      33,
+      85
+    ]
+  },
+  {
+    "id": "chopin-28-20",
+    "title": "Prelude in C minor, Op. 28 No. 20",
+    "composer": "Frédéric Chopin",
+    "description": "A funeral march in miniature. Huge chords, very slow. Listen for the inner voice.",
+    "difficulty": "intermediate",
+    "attribution": "Public-domain engraving from the Mutopia Project. Mutopia engraving of Chopin’s Op. 28 No. 20.",
+    "license": "pd",
+    "practiceScale": 1,
+    "bpm": 42,
+    "fifths": -3,
+    "minor": true,
+    "time": [
+      4,
+      4
+    ],
+    "bars": 13,
+    "notes": 286,
+    "range": [
+      24,
+      75
+    ]
+  },
+  {
+    "id": "chopin-28-4",
+    "title": "Prelude in E minor, Op. 28 No. 4",
+    "composer": "Frédéric Chopin",
+    "description": "A melody that barely moves, over a left hand that never stops. The repeating chords are the piece.",
+    "difficulty": "advanced",
+    "attribution": "Public-domain engraving from the Mutopia Project. Mutopia engraving of Chopin’s Op. 28 No. 4.",
+    "license": "pd",
+    "practiceScale": 0.9,
+    "bpm": 56,
+    "fifths": 1,
+    "minor": true,
+    "time": [
+      2,
+      2
+    ],
+    "bars": 26,
+    "notes": 600,
+    "range": [
+      28,
+      84
+    ]
+  },
+  {
+    "id": "chopin-28-6",
+    "title": "Prelude in B minor, Op. 28 No. 6",
+    "composer": "Frédéric Chopin",
+    "description": "The cello song. The left hand carries the tune while the right hand keeps a quiet pulse.",
+    "difficulty": "advanced",
+    "attribution": "Public-domain engraving from the Mutopia Project. Mutopia engraving of Chopin’s Op. 28 No. 6.",
+    "license": "pd",
+    "practiceScale": 0.9,
+    "bpm": 45,
+    "fifths": 2,
+    "minor": true,
+    "time": [
+      3,
+      4
+    ],
+    "bars": 26,
+    "notes": 405,
+    "range": [
+      35,
+      78
+    ]
+  },
+  {
+    "id": "raindrop",
+    "title": "Prelude in D-flat major, Op. 28 No. 15 “Raindrop”",
+    "composer": "Frédéric Chopin",
+    "description": "The repeated A-flat (and later G-sharp) is the rain. Stay even through the stormy middle, then let it clear.",
+    "difficulty": "concert",
+    "attribution": "Public-domain engraving from the Mutopia Project. Mutopia engraving of Chopin’s Op. 28 No. 15.",
+    "license": "pd",
+    "practiceScale": 0.75,
+    "bpm": 80,
+    "fifths": -5,
+    "minor": false,
+    "time": [
+      4,
+      4
+    ],
+    "bars": 89,
+    "notes": 1518,
+    "range": [
+      28,
+      82
+    ]
+  },
+  {
+    "id": "pathetique-2",
+    "title": "Pathétique Sonata — II. Adagio cantabile",
+    "composer": "Ludwig van Beethoven",
+    "description": "The famous slow movement. Sing the right hand; keep the left-hand accompaniment softer than you think.",
+    "difficulty": "advanced",
+    "attribution": "Public-domain engraving from the Mutopia Project. Mutopia engraving of Beethoven’s Op. 13, second movement.",
+    "license": "pd",
+    "practiceScale": 0.95,
+    "bpm": 36,
+    "fifths": -4,
+    "minor": false,
+    "time": [
+      2,
+      4
+    ],
+    "bars": 73,
+    "notes": 1629,
+    "range": [
+      29,
+      89
+    ]
+  },
+  {
+    "id": "pathetique-1",
+    "title": "Pathétique Sonata — I. Grave, Allegro",
+    "composer": "Ludwig van Beethoven",
+    "description": "The grave introduction and the allegro that erupts out of it. Practise the two tempos as their own sections.",
+    "difficulty": "concert",
+    "attribution": "Public-domain engraving from the Mutopia Project. Mutopia engraving of Beethoven’s Op. 13, first movement.",
+    "license": "pd",
+    "practiceScale": 0.8,
+    "bpm": 33,
+    "fifths": -3,
+    "minor": true,
+    "time": [
+      4,
+      4
+    ],
+    "bars": 312,
+    "notes": 4285,
+    "range": [
+      29,
+      89
+    ]
+  },
+  {
+    "id": "pathetique-3",
+    "title": "Pathétique Sonata — III. Rondo",
+    "composer": "Ludwig van Beethoven",
+    "description": "A rondo that smiles and then sprints. The theme returns — loop it until the fingers stop arguing.",
+    "difficulty": "concert",
+    "attribution": "Public-domain engraving from the Mutopia Project. Mutopia engraving of Beethoven’s Op. 13, third movement.",
+    "license": "pd",
+    "practiceScale": 0.55,
+    "bpm": 216,
+    "fifths": -3,
+    "minor": true,
+    "time": [
+      2,
+      2
+    ],
+    "bars": 210,
+    "notes": 2385,
+    "range": [
+      29,
+      89
+    ]
+  },
+  {
+    "id": "clair-de-lune",
+    "title": "Clair de lune",
+    "composer": "Claude Debussy",
+    "description": "Suite bergamasque, third movement. 9/8, moonlight, and rubato you add yourself by slowing the tempo slider.",
+    "difficulty": "concert",
+    "attribution": "Public-domain engraving from the Mutopia Project. Mutopia engraving of Debussy’s Clair de lune.",
+    "license": "pd",
+    "practiceScale": 0.9,
+    "bpm": 60,
+    "fifths": -5,
+    "minor": false,
+    "time": [
+      9,
+      8
+    ],
+    "bars": 72,
+    "notes": 1468,
+    "range": [
+      27,
+      97
+    ]
+  },
+  {
+    "id": "arabesque",
+    "title": "Arabesque No. 1",
+    "composer": "Claude Debussy",
+    "description": "Flowing triplets and a melody that floats over them. Hands-separate practice is not optional.",
+    "difficulty": "concert",
+    "attribution": "Public-domain engraving from the Mutopia Project. Mutopia engraving of Debussy’s Première Arabesque.",
+    "license": "pd",
+    "practiceScale": 0.7,
+    "bpm": 144,
+    "fifths": 4,
+    "minor": false,
+    "time": [
+      4,
+      4
+    ],
+    "bars": 107,
+    "notes": 1448,
+    "range": [
+      28,
+      92
+    ]
+  },
+  {
+    "id": "moonlight-1",
+    "title": "Moonlight Sonata — I. Adagio sostenuto",
+    "composer": "Ludwig van Beethoven",
+    "description": "Continuous triplets under a melody that enters late. The right hand is two voices. Take it slowly and keep the triplets even.",
+    "difficulty": "advanced",
+    "attribution": "Engraving by Stewart Holmes for the Mutopia Project, after the 1908 Berners edition. Encoding licensed CC BY-SA 2.5. Beethoven’s music is public domain.",
+    "license": "cc-by-sa-2.5",
+    "practiceScale": 0.9,
+    "bpm": 60,
+    "fifths": 4,
+    "minor": true,
+    "time": [
+      2,
+      2
+    ],
+    "bars": 69,
+    "notes": 1142,
+    "range": [
+      29,
+      87
+    ]
+  },
+  {
+    "id": "moonlight-2",
+    "title": "Moonlight Sonata — II. Allegretto",
+    "composer": "Ludwig van Beethoven",
+    "description": "The dance between the two famous movements, in D-flat. Short, graceful, and full of grace notes’ cousins: lifts and echoes.",
+    "difficulty": "advanced",
+    "attribution": "Engraving by Stewart Holmes for the Mutopia Project. Encoding licensed CC BY-SA 2.5. Beethoven’s music is public domain.",
+    "license": "cc-by-sa-2.5",
+    "practiceScale": 0.85,
+    "bpm": 60,
+    "fifths": -5,
+    "minor": false,
+    "time": [
+      3,
+      4
+    ],
+    "bars": 60,
+    "notes": 373,
+    "range": [
+      32,
+      82
+    ]
+  },
+  {
+    "id": "moonlight-3",
+    "title": "Moonlight Sonata — III. Presto agitato",
+    "composer": "Ludwig van Beethoven",
+    "description": "The storm. Broken chords at speed, then the theme punching through. Start at half tempo. The written presto is at the top of the slider.",
+    "difficulty": "concert",
+    "attribution": "Engraving by Stewart Holmes for the Mutopia Project. Encoding licensed CC BY-SA 2.5. Beethoven’s music is public domain.",
+    "license": "cc-by-sa-2.5",
+    "practiceScale": 0.7,
+    "bpm": 132,
+    "fifths": 4,
+    "minor": true,
+    "time": [
+      4,
+      4
+    ],
+    "bars": 201,
+    "notes": 4863,
+    "range": [
+      29,
+      88
+    ]
+  }
+]
