@@ -47,15 +47,13 @@ npm run preview
 
 ## GitHub Pages
 
-The site is built to be served at [https://micahthepro.github.io/Ivory/](https://micahthepro.github.io/Ivory/). Vite’s `base` is `/Ivory/`, and `.github/workflows/pages.yml` builds and deploys on every push to `main`.
+The site is built to be served at [https://micahthepro.github.io/Ivory/](https://micahthepro.github.io/Ivory/). Vite’s `base` is `/Ivory/`.
 
-After this pull request is merged:
+Publishing does not use a GitHub Actions workflow. `npm run deploy:branch` builds `dist/` and pushes those files to the root of the `gh-pages` branch, together with an empty `.nojekyll` file and a `404.html` copy of `index.html` so client-side routes survive a refresh.
 
-1. Open the repository on GitHub.
-2. Go to **Settings → Pages**.
-3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+In the repository, set **Settings → Pages → Build and deployment → Source** to **Deploy from a branch**, branch **gh-pages**, folder **/ (root)**.
 
-The workflow on `main` publishes the `dist` folder. The first successful run is what makes the URL live. Refreshing a deep link works because `404.html` sends unknown paths back to the app.
+A branch deploy still starts GitHub’s built-in `pages-build-deployment` job. If the account is locked for billing, that job will not run and the site will stay unpublished until the lock is cleared.
 
 ## Playing a real piano
 
@@ -83,4 +81,5 @@ Notation uses [Bravura](https://github.com/steinbergmedia/bravura) by Steinberg,
 | --- | --- |
 | `npm test` | Pitch detection, the wait-mode engine, MIDI parsing, and the built-in scores |
 | `npm run build` | Typecheck and production build |
+| `npm run deploy:branch` | Build and push `dist/` to the `gh-pages` branch |
 | `npm run songs` | Rebuild `public/songs` from Mutopia MIDI files in `$MIDIS` (default `/tmp/ivory-midi`) |

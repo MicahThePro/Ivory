@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "songs": "tsx scripts/build-repertoire.ts"
+    "songs": "tsx scripts/build-repertoire.ts",
+    "deploy:branch": "node scripts/deploy-branch.mjs"
   },
   "dependencies": {
     "react": "^19.2.0",
