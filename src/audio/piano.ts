@@ -122,6 +122,7 @@ export class Piano {
 
   play(midi: number, velocity = 0.8, when?: number): void {
     const ctx = this.ensure()
+    if (ctx.state !== 'running') void ctx.resume()
     const time = Math.max(ctx.currentTime, when ?? ctx.currentTime)
     const vel = Math.max(0.05, Math.min(1, velocity))
     this.release(midi, time)

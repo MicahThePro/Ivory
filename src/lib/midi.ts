@@ -221,6 +221,40 @@ export function midiToSong(parsed: ParsedMidi, meta: SongOverrides): Song {
 
   const raw: Omit<SongNote, 'id'>[] = []
   const single = averages.length === 1
+  const handOf = new Map<MidiNote, Hand>()
+  if (single) {
+    const ordered = [...parsed.notes].sort((a, b) => a.startTick - b.startTick || a.midi - b.midi)
+    const slices: MidiNote[][] = []
+    for (const note of ordered) {
+      const last = slices[slices.length - 1]
+      if (!last || note.startTick - last[0].startTick > parsed.ppq * 0.04) slices.push([note])
+      else last.push(note)
+    }
+    let previous: Hand = 'right'
+    for (const slice of slices) {
+      const midis = slice.map((n) => n.midi).sort((a, b) => a - b)
+      const span = midis[midis.length - 1] - midis[0]
+      if (slice.length > 1 && span >= 12) {
+        let gap = 0
+        let cut = midis[0]
+        for (let i = 1; i < midis.length; i++) {
+          const d = midis[i] - midis[i - 1]
+          if (d > gap) {
+            gap = d
+            cut = midis[i - 1]
+          }
+        }
+        const splitAt = gap >= 5 ? cut : 59
+        for (const n of slice) handOf.set(n, n.midi <= splitAt ? 'left' : 'right')
+        previous = midis[midis.length - 1] >= 60 ? 'right' : 'left'
+      } else {
+        const avg = midis.reduce((s, m) => s + m, 0) / midis.length
+        const hand: Hand = avg < 58 ? 'left' : avg > 62 ? 'right' : previous
+        for (const n of slice) handOf.set(n, hand)
+        previous = hand
+      }
+    }
+  }
   for (const note of parsed.notes) {
     const start = q(note.startTick / parsed.ppq)
     let duration = q((note.endTick - note.startTick) / parsed.ppq)
@@ -231,7 +265,7 @@ export function midiToSong(parsed: ParsedMidi, meta: SongOverrides): Song {
       else break
     }
     const spelled = spellMidi(note.midi, fifthsHere)
-    const hand: Hand = single ? (note.midi < 60 ? 'left' : 'right') : (hands.get(note.track) ?? 'right')
+    const hand: Hand = single ? (handOf.get(note) ?? 'right') : (hands.get(note.track) ?? 'right')
     raw.push({
       midi: note.midi,
       name: spelled.name,

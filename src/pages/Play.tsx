@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { PlayStage } from '../components/PlayStage'
 import { loadSong } from '../data/library'
 import type { Song } from '../lib/song'
 
 export function Play() {
   const { id = '' } = useParams()
+  const [search] = useSearchParams()
+  const initialView = search.get('view') === 'sheet' ? 'sheet' : 'fall'
   const [song, setSong] = useState<Song | null>(null)
   const [error, setError] = useState('')
   useEffect(() => {
@@ -30,7 +32,7 @@ export function Play() {
   if (!song) return <div className="page"><p className="prompt">Setting the music on the stand…</p></div>
   return (
     <div className="page play-page">
-      <PlayStage song={song} onExit={() => history.back()} />
+      <PlayStage song={song} initialView={initialView} onExit={() => history.back()} />
       <p className="credit">{song.attribution}</p>
     </div>
   )

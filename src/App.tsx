@@ -23,7 +23,16 @@ export function App() {
       piano.setVolume(progress.get().settings.volume)
     }
     window.addEventListener('pointerdown', unlock)
-    return () => window.removeEventListener('pointerdown', unlock)
+    window.addEventListener('touchend', unlock, { passive: true })
+    const onShow = () => {
+      if (document.visibilityState === 'visible') piano.resume()
+    }
+    document.addEventListener('visibilitychange', onShow)
+    return () => {
+      window.removeEventListener('pointerdown', unlock)
+      window.removeEventListener('touchend', unlock)
+      document.removeEventListener('visibilitychange', onShow)
+    }
   }, [])
   const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
   return (
