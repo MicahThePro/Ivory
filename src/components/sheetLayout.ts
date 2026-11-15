@@ -3,10 +3,39 @@ import { barSpans, keyAt, type BarSpan, type Song, type SongNote } from '../lib/
 
 export const SPACE = 13
 export const PX = 70
-export const C4 = 168
+export const TREBLE_BOTTOM = 2
+export const TREBLE_TOP = 10
+export const BASS_TOP = -2
+export const BASS_BOTTOM = -10
 
-export function yOf(step: number): number {
-  return C4 - step * (SPACE / 2)
+export interface StaffFrame {
+  origin: number
+  bassShift: number
+  height: number
+}
+
+/** Push the bass staff down so treble ledger lines never land on bass lines. */
+export function staffFrame(steps: { step: number; hand: 'left' | 'right' }[]): StaffFrame {
+  const rh = steps.filter((n) => n.hand === 'right').map((n) => n.step)
+  const lh = steps.filter((n) => n.hand === 'left').map((n) => n.step)
+  const lowTreble = Math.min(TREBLE_BOTTOM, ...(rh.length ? rh : [TREBLE_BOTTOM]))
+  const highTreble = Math.max(TREBLE_TOP, ...(rh.length ? rh : [TREBLE_TOP]))
+  const highBass = Math.max(BASS_TOP, ...(lh.length ? lh : [BASS_TOP]))
+  const lowBass = Math.min(BASS_BOTTOM, ...(lh.length ? lh : [BASS_BOTTOM]))
+  const half = SPACE / 2
+  const naturalGap = (TREBLE_BOTTOM - BASS_TOP) * half
+  const trebleHang = (TREBLE_BOTTOM - lowTreble) * half + 12
+  const bassRise = (highBass - BASS_TOP) * half + 12
+  const bassShift = Math.max(SPACE * 3, trebleHang + bassRise + SPACE * 1.25 - naturalGap)
+  const origin = 56 + Math.max(0, highTreble - TREBLE_TOP) * half
+  const bottom = origin - lowBass * half + bassShift
+  return { origin, bassShift, height: Math.ceil(bottom + 48) }
+}
+
+export function yOf(step: number, staff: 'treble' | 'bass' = 'treble', frame?: Pick<StaffFrame, 'origin' | 'bassShift'>): number {
+  const origin = frame?.origin ?? 168
+  const y = origin - step * (SPACE / 2)
+  return staff === 'bass' ? y + (frame?.bassShift ?? 0) : y
 }
 
 export function symbolFor(duration: number): { head: 'whole' | 'half' | 'filled'; flags: number; dots: number } {
@@ -59,6 +88,7 @@ export interface PlacedNote {
   offset: number
   accidental: number | null
   start: number
+  ledgerY: number[]
 }
 
 export interface PlacedRest {
@@ -69,9 +99,17 @@ export interface PlacedRest {
   start: number
 }
 
-export function prepareSheet(song: Song, notes: SongNote[]): { notes: PlacedNote[]; rests: PlacedRest[]; bars: BarSpan[]; width: number } {
+export function prepareSheet(song: Song, notes: SongNote[]): {
+  notes: PlacedNote[]
+  rests: PlacedRest[]
+  bars: BarSpan[]
+  width: number
+  height: number
+  frame: StaffFrame
+} {
   const end = Math.max(1, ...notes.map((n) => n.start + n.duration), ...song.notes.map((n) => n.start + n.duration))
   const bars = barSpans(song.times, end)
+  const frame = staffFrame(notes.map((n) => ({ step: stepFromC4(n.letter, n.octave), hand: n.hand })))
   const placed: PlacedNote[] = []
   const state = new Map<string, number>()
   let bar = -1
@@ -93,13 +131,19 @@ export function prepareSheet(song: Song, notes: SongNote[]): { notes: PlacedNote
     state.set(key, n.accidental)
     const step = stepFromC4(n.letter, n.octave)
     const sym = symbolFor(n.duration)
+    const staff = n.hand === 'left' ? 'bass' : 'treble'
+    const staffTop = staff === 'treble' ? TREBLE_TOP : BASS_TOP
+    const staffBot = staff === 'treble' ? TREBLE_BOTTOM : BASS_BOTTOM
+    const ledgerY: number[] = []
+    if (step > staffTop) for (let s = staffTop + 2; s <= step; s += 2) ledgerY.push(yOf(s, staff, frame))
+    if (step < staffBot) for (let s = staffBot - 2; s >= step; s -= 2) ledgerY.push(yOf(s, staff, frame))
     placed.push({
       id: n.id,
       midi: n.midi,
       name: n.name,
       step,
       x: 150 + n.start * PX,
-      y: yOf(step),
+      y: yOf(step, staff, frame),
       hand: n.hand,
       head: sym.head,
       flags: sym.flags,
@@ -108,6 +152,7 @@ export function prepareSheet(song: Song, notes: SongNote[]): { notes: PlacedNote
       offset: 0,
       accidental,
       start: n.start,
+      ledgerY,
     })
   }
 
@@ -154,10 +199,11 @@ export function prepareSheet(song: Song, notes: SongNote[]): { notes: PlacedNote
         const barHit = bars.find((b) => t >= b.start - 1e-4 && t < b.end - 1e-4)
         const room = Math.min(gap.b, barHit?.end ?? gap.b) - t
         const choice = [4, 2, 1, 0.5, 0.25, 0.125].find((c) => c <= room + 0.03) ?? 0.125
+        const staff = hand === 'left' ? 'bass' : 'treble'
         rests.push({
           hand,
           x: 150 + t * PX,
-          y: yOf(hand === 'left' ? -6 : 6),
+          y: yOf(hand === 'left' ? -6 : 6, staff, frame),
           duration: choice,
           start: t,
         })
@@ -166,7 +212,7 @@ export function prepareSheet(song: Song, notes: SongNote[]): { notes: PlacedNote
     }
   }
 
-  return { notes: placed, rests, bars, width: 220 + end * PX }
+  return { notes: placed, rests, bars, width: 220 + end * PX, height: frame.height, frame }
 }
 
 export function beamKey(song: Song, start: number): string {

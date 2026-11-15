@@ -35,6 +35,7 @@ export function Calibrate() {
         <p>
           A single note through the microphone is solid. Chords are a best guess: thirds and sixths usually show up,
           octaves and thick chords often collapse into one pitch. Plug in MIDI when you want every note of a chord.
+          On iPhone and Android, tap the button and allow the microphone. Those browsers only start audio after a tap. Use headphones so Ivory does not hear its own speakers.
         </p>
       </header>
       <div className="cal-grid">
@@ -44,6 +45,7 @@ export function Calibrate() {
             className="btn gold"
             onClick={() => {
               setError('')
+              piano.resume()
               if (inputHub.micOn) inputHub.stopMic()
               else {
                 inputHub.setMicTuning(settings.a4, settings.gate)

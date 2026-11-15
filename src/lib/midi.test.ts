@@ -58,4 +58,34 @@ describe('midi parser', () => {
     expect(song.notes[1].name).toBe('E4')
     expect(song.sections.length).toBeGreaterThan(0)
   })
+
+  it('splits a wide one-track chord between the hands', () => {
+    const events = [
+      ...vlq(0), 0xff, 0x51, 0x03, 0x07, 0xa1, 0x20,
+      ...vlq(0), 0x90, 48, 80,
+      ...vlq(0), 52, 80,
+      ...vlq(0), 55, 80,
+      ...vlq(0), 72, 80,
+      ...vlq(480), 0x80, 48, 0,
+      ...vlq(0), 52, 0,
+      ...vlq(0), 55, 0,
+      ...vlq(0), 72, 0,
+      ...vlq(0), 0xff, 0x2f, 0x00,
+    ]
+    const body = track(events)
+    const file = new Uint8Array(14 + body.length)
+    file.set([0x4d, 0x54, 0x68, 0x64, 0, 0, 0, 6, 0, 0, 0, 1, 0x01, 0xe0], 0)
+    file.set(body, 14)
+    const song = midiToSong(parseMidi(file), {
+      id: 'chord',
+      title: 'Chord',
+      composer: 'Test',
+      description: '',
+      difficulty: 'beginner',
+      attribution: 'test',
+      license: 'original',
+    })
+    expect(song.notes.filter((n) => n.hand === 'left').map((n) => n.midi).sort((a, b) => a - b)).toEqual([48, 52, 55])
+    expect(song.notes.filter((n) => n.hand === 'right').map((n) => n.midi)).toEqual([72])
+  })
 })

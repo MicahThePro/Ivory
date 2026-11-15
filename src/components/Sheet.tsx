@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react'
-import { signatureSteps, prepareSheet, yOf, PX, SPACE, type PlacedNote } from './sheetLayout'
+import { signatureSteps, prepareSheet, yOf, PX, SPACE, TREBLE_TOP, BASS_BOTTOM, type PlacedNote, type StaffFrame } from './sheetLayout'
 import type { Song, SongNote } from '../lib/song'
 import { keyAt } from '../lib/song'
 
@@ -21,13 +21,15 @@ function restGlyph(duration: number): string {
   return '\uE4E7'
 }
 
-function StaffLines({ hand, x0, x1 }: { hand: 'left' | 'right'; x0: number; x1: number }) {
+function StaffLines({ hand, x0, x1, frame }: { hand: 'left' | 'right'; x0: number; x1: number; frame: StaffFrame }) {
   const steps = hand === 'right' ? [2, 4, 6, 8, 10] : [-2, -4, -6, -8, -10]
+  const staff = hand === 'left' ? 'bass' : 'treble'
   return (
     <g>
-      {steps.map((s) => (
-        <line key={s} x1={x0} x2={x1} y1={yOf(s)} y2={yOf(s)} className="staff-line" />
-      ))}
+      {steps.map((s) => {
+        const y = yOf(s, staff, frame)
+        return <line key={s} x1={x0} x2={x1} y1={y} y2={y} className="staff-line" />
+      })}
     </g>
   )
 }
@@ -69,15 +71,10 @@ function NoteHeads({ notes, status }: { notes: PlacedNote[]; status: Record<stri
         const nx = n.x + n.offset
         const stemX = nx + (n.stemUp ? 6.2 : -6.2)
         const stemY = n.y + (n.stemUp ? -SPACE * 3.4 : SPACE * 3.4)
-        const staffTop = n.hand === 'right' ? 10 : -2
-        const staffBot = n.hand === 'right' ? 2 : -10
-        const ledgers: number[] = []
-        if (n.step > staffTop) for (let s = staffTop + 2; s <= n.step; s += 2) ledgers.push(s)
-        if (n.step < staffBot) for (let s = staffBot - 2; s >= n.step; s -= 2) ledgers.push(s)
         return (
           <g key={n.id} className={`snote ${cls}`}>
-            {ledgers.map((s) => (
-              <line key={s} x1={nx - 12} x2={nx + 12} y1={yOf(s)} y2={yOf(s)} className="ledger" />
+            {n.ledgerY.map((y, i) => (
+              <line key={i} x1={nx - 12} x2={nx + 12} y1={y} y2={y} className="ledger" />
             ))}
             {n.accidental != null && (
               <text className="bravura acc" x={nx - 18} y={n.y}>
@@ -130,6 +127,7 @@ export const Sheet = forwardRef<SheetHandle, {
   const visibleRests = layout.rests.filter((r) => r.start > windowStart - 1 && r.start < windowEnd)
   const key = keyAt(song.keys, Math.max(0, beat))
   const time = song.times[0] ?? { numerator: 4, denominator: 4 }
+  const frame = layout.frame
 
   useImperativeHandle(ref, () => ({
     follow(next: number) {
@@ -143,21 +141,21 @@ export const Sheet = forwardRef<SheetHandle, {
   return (
     <div className="sheet-wrap">
       <div className="clef-gutter" aria-hidden>
-        <svg width="118" height="340" viewBox="0 0 118 340">
-          <StaffLines hand="right" x0={8} x1={112} />
-          <StaffLines hand="left" x0={8} x1={112} />
-          <text className="bravura clef" x="6" y={yOf(4)}>{TREBLE}</text>
-          <text className="bravura clef bass" x="6" y={yOf(-4)}>{BASS}</text>
+        <svg width="118" height={layout.height} viewBox={`0 0 118 ${layout.height}`}>
+          <StaffLines hand="right" x0={8} x1={112} frame={frame} />
+          <StaffLines hand="left" x0={8} x1={112} frame={frame} />
+          <text className="bravura clef" x="6" y={yOf(4, 'treble', frame)}>{TREBLE}</text>
+          <text className="bravura clef bass" x="6" y={yOf(-4, 'bass', frame)}>{BASS}</text>
           {signatureSteps(key.fifths, 'right').map((step, i) => (
-            <text key={`r${i}`} className="bravura sig" x={48 + i * 8} y={yOf(step)}>{key.fifths >= 0 ? SHARP : FLAT}</text>
+            <text key={`r${i}`} className="bravura sig" x={48 + i * 8} y={yOf(step, 'treble', frame)}>{key.fifths >= 0 ? SHARP : FLAT}</text>
           ))}
           {signatureSteps(key.fifths, 'left').map((step, i) => (
-            <text key={`l${i}`} className="bravura sig" x={48 + i * 8} y={yOf(step)}>{key.fifths >= 0 ? SHARP : FLAT}</text>
+            <text key={`l${i}`} className="bravura sig" x={48 + i * 8} y={yOf(step, 'bass', frame)}>{key.fifths >= 0 ? SHARP : FLAT}</text>
           ))}
-          <text className="time-num" x="92" y={yOf(8)}>{time.numerator}</text>
-          <text className="time-num" x="92" y={yOf(4)}>{time.denominator}</text>
-          <text className="time-num" x="92" y={yOf(-4)}>{time.numerator}</text>
-          <text className="time-num" x="92" y={yOf(-8)}>{time.denominator}</text>
+          <text className="time-num" x="92" y={yOf(8, 'treble', frame)}>{time.numerator}</text>
+          <text className="time-num" x="92" y={yOf(4, 'treble', frame)}>{time.denominator}</text>
+          <text className="time-num" x="92" y={yOf(-4, 'bass', frame)}>{time.numerator}</text>
+          <text className="time-num" x="92" y={yOf(-8, 'bass', frame)}>{time.denominator}</text>
         </svg>
       </div>
       <div
@@ -170,22 +168,22 @@ export const Sheet = forwardRef<SheetHandle, {
           followOn.current = true
         }}
       >
-        <div className="sheet-canvas" style={{ width: layout.width }}>
+        <div className="sheet-canvas" style={{ width: layout.width, height: layout.height }}>
           <svg
             width={layout.width}
-            height="340"
+            height={layout.height}
             onClick={(event) => {
               const rect = event.currentTarget.getBoundingClientRect()
               const beatHit = (event.clientX - rect.left - 150) / PX
               onSeek?.(Math.max(0, beatHit))
             }}
           >
-            <StaffLines hand="right" x0={0} x1={layout.width} />
-            <StaffLines hand="left" x0={0} x1={layout.width} />
+            <StaffLines hand="right" x0={0} x1={layout.width} frame={frame} />
+            <StaffLines hand="left" x0={0} x1={layout.width} frame={frame} />
             {layout.bars
               .filter((b) => b.start < windowEnd + 2 && b.end > windowStart - 2)
               .map((b) => (
-                <line key={b.index} className="barline" x1={150 + b.start * PX} x2={150 + b.start * PX} y1={yOf(12)} y2={yOf(-12)} />
+                <line key={b.index} className="barline" x1={150 + b.start * PX} x2={150 + b.start * PX} y1={yOf(TREBLE_TOP + 2, 'treble', frame)} y2={yOf(BASS_BOTTOM - 2, 'bass', frame)} />
               ))}
             <NoteHeads notes={visibleNotes} status={status} />
             {visibleRests.map((r, i) => (

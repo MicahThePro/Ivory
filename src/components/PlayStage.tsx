@@ -14,6 +14,7 @@ export function PlayStage({
   song,
   initialMode = 'wait',
   initialHands = 'both',
+  initialView = 'fall',
   sessionKey,
   onExit,
   celebrate = 'full',
@@ -21,6 +22,7 @@ export function PlayStage({
   song: Song
   initialMode?: PlayMode
   initialHands?: HandFilter
+  initialView?: 'sheet' | 'fall'
   sessionKey?: string
   onExit?: () => void
   celebrate?: 'full' | 'step'
@@ -36,7 +38,8 @@ export function PlayStage({
     engineRef.current = engine
   }
   const [rev, setRev] = useState(0)
-  const [view, setView] = useState<'sheet' | 'fall'>('fall')
+  const [view, setView] = useState<'sheet' | 'fall'>(initialView)
+  const [portraitPhone, setPortraitPhone] = useState(false)
   const [summary, setSummary] = useState<Summary | null>(null)
   const [stepDone, setStepDone] = useState(false)
   const [xp, setXp] = useState<number | null>(null)
@@ -54,6 +57,13 @@ export function PlayStage({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rev, engine, snap.revision])
 
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 740px) and (orientation: portrait)')
+    const apply = () => setPortraitPhone(query.matches)
+    apply()
+    query.addEventListener('change', apply)
+    return () => query.removeEventListener('change', apply)
+  }, [])
   useEffect(() => {
     piano.resume()
     sfx.resume()
@@ -202,6 +212,9 @@ export function PlayStage({
           />
         )}
       </div>
+      {portraitPhone && view === 'fall' && (
+        <p className="turn-hint">Turn sideways for bigger keys. Swipe the keyboard to reach all 88, from A0 to C8.</p>
+      )}
       {view === 'fall' && (
         <p className="legend">
           <i className="swatch nat" /> natural
